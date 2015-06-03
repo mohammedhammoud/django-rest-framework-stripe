@@ -4,7 +4,6 @@ from ...utils import get_user_model
 
 
 class Command(BaseCommand):
-
     help = "Sync customer data"
 
     def handle(self, *args, **options):
@@ -15,9 +14,17 @@ class Command(BaseCommand):
         for user in qs:
             count += 1
             perc = int(round(100 * (float(count) / float(total))))
+
+            __username = ''
+            if hasattr(user, 'username'):
+                __username = user.username
+            elif hasattr(user, 'email'):
+                __username = user.email
+
             print("[{0}/{1} {2}%] Syncing {3} [{4}]".format(
-                count, total, perc, user.username, user.pk
+                count, total, perc, __username, user.pk
             ))
+
             customer = user.customer
             cu = customer.stripe_customer
             customer.sync(cu=cu)
