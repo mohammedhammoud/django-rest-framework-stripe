@@ -11,7 +11,7 @@ def read(*parts):
 
 
 PACKAGE = "payments"
-NAME = "django-stripe-payments"
+NAME = "django-rest-framework-stripe"
 DESCRIPTION = "a payments Django app for Stripe"
 AUTHOR = "Pinax Team"
 AUTHOR_EMAIL = "team@pinaxproject.com"
