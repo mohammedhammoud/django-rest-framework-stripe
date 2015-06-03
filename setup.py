@@ -17,7 +17,6 @@ AUTHOR = "Pinax Team"
 AUTHOR_EMAIL = "team@pinaxproject.com"
 URL = "https://github.com/pinax/django-stripe-payments"
 
-
 setup(
     name=NAME,
     author=AUTHOR,
@@ -44,6 +43,7 @@ setup(
         "django>=1.6",
         "pytz",
         "six",
+        "djangorestframework>=3.1.1",
     ],
     test_suite="runtests.runtests",
     tests_require=[
