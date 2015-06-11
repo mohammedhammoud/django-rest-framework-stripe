@@ -1,5 +1,5 @@
 ======================
-django-stripe-payments
+django-rest-framework-stripe
 ======================
 
 Django REST Framework wrapper of the payments Django app for Stripe
