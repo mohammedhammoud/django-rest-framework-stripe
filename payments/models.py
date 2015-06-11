@@ -17,6 +17,8 @@ import stripe
 
 from jsonfield.fields import JSONField
 
+from . import settings as app_settings
+
 from .managers import CustomerManager, ChargeManager, TransferManager
 from .settings import (
     DEFAULT_PLAN,
@@ -41,12 +43,11 @@ from .utils import (
 )
 
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = app_settings.get_api_key()
 stripe.api_version = getattr(settings, "STRIPE_API_VERSION", "2012-11-07")
 
 
 class StripeObject(models.Model):
-
     stripe_id = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -55,7 +56,6 @@ class StripeObject(models.Model):
 
 
 class EventProcessingException(models.Model):
-
     event = models.ForeignKey("Event", null=True)
     data = models.TextField()
     message = models.CharField(max_length=500)
@@ -76,7 +76,6 @@ class EventProcessingException(models.Model):
 
 
 class Event(StripeObject):
-
     kind = models.CharField(max_length=250)
     livemode = models.BooleanField(default=False)
     customer = models.ForeignKey("Customer", null=True)
@@ -294,7 +293,6 @@ class Transfer(StripeObject):
 
 
 class TransferChargeFee(models.Model):
-
     transfer = models.ForeignKey(Transfer, related_name="charge_fee_details")
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     currency = models.CharField(max_length=10, default="usd")
@@ -305,7 +303,6 @@ class TransferChargeFee(models.Model):
 
 
 class Customer(StripeObject):
-
     user = models.OneToOneField(
         getattr(settings, "AUTH_USER_MODEL", "auth.User"),
         null=True
@@ -348,9 +345,9 @@ class Customer(StripeObject):
 
     def can_charge(self):
         return self.card_fingerprint and \
-            self.card_last_4 and \
-            self.card_kind and \
-            self.date_purged is None
+               self.card_last_4 and \
+               self.card_kind and \
+               self.date_purged is None
 
     def has_active_subscription(self):
         try:
@@ -418,6 +415,10 @@ class Customer(StripeObject):
 
         return cus
 
+    def create_card_token(self, data):
+        token_obj = stripe.Token.create(card=data)
+        return token_obj, token_obj['id']
+
     def update_card(self, token):
         cu = self.stripe_customer
         cu.card = token
@@ -458,8 +459,8 @@ class Customer(StripeObject):
             # Test to make sure the card has changed, otherwise do not update it
             # (i.e. refrain from sending any signals)
             if (self.card_last_4 != cu.active_card.last4 or
-                    self.card_fingerprint != cu.active_card.fingerprint or
-                    self.card_kind != cu.active_card.type):
+                        self.card_fingerprint != cu.active_card.fingerprint or
+                        self.card_kind != cu.active_card.type):
                 updated = True
                 self.card_last_4 = cu.active_card.last4
                 self.card_fingerprint = cu.active_card.fingerprint
@@ -604,7 +605,6 @@ class Customer(StripeObject):
 
 
 class CurrentSubscription(models.Model):
-
     customer = models.OneToOneField(
         Customer,
         related_name="current_subscription",
@@ -665,7 +665,6 @@ class CurrentSubscription(models.Model):
 
 
 class Invoice(models.Model):
-
     stripe_id = models.CharField(max_length=255)
     customer = models.ForeignKey(Customer, related_name="invoices")
     attempted = models.NullBooleanField()
@@ -788,7 +787,6 @@ class Invoice(models.Model):
 
 
 class InvoiceItem(models.Model):
-
     stripe_id = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
     invoice = models.ForeignKey(Invoice, related_name="items")
@@ -807,7 +805,6 @@ class InvoiceItem(models.Model):
 
 
 class Charge(StripeObject):
-
     customer = models.ForeignKey(Customer, related_name="charges")
     invoice = models.ForeignKey(Invoice, null=True, related_name="charges")
     card_last_4 = models.CharField(max_length=4, blank=True)
