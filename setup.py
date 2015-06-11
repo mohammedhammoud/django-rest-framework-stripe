@@ -12,10 +12,10 @@ def read(*parts):
 
 PACKAGE = "payments"
 NAME = "django-rest-framework-stripe"
-DESCRIPTION = "a payments Django app for Stripe"
-AUTHOR = "Pinax Team"
-AUTHOR_EMAIL = "team@pinaxproject.com"
-URL = "https://github.com/pinax/django-stripe-payments"
+DESCRIPTION = "Django REST Framework wrapper of the payments Django app for Stripe"
+AUTHOR = "Mohammed Hammoud"
+AUTHOR_EMAIL = "mohammed@iktw.se"
+URL = "https://github.com/iktw/django-rest-framework-stripe"
 
 setup(
     name=NAME,
@@ -23,7 +23,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     description=DESCRIPTION,
     long_description=read("README.rst"),
-    version="2.0.0",
+    version="1.0.0",
     license="MIT",
     url=URL,
     packages=find_packages(),
