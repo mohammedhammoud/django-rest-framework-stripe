@@ -24,5 +24,6 @@ Endpoints
 * webhook/      (POST)
 * cancel/       (POST)
 
-** ALL TEMPLATES AND AJAX VIEWS HAS BEEN REMOVED, USE ADDED ENDPOINTS **
+**ALL TEMPLATES AND AJAX VIEWS HAS BEEN REMOVED, USE ADDED ENDPOINTS**
+
 Documentation can be found at http://django-stripe-payments.readthedocs.org
