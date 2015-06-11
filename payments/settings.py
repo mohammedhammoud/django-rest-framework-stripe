@@ -46,3 +46,12 @@ def plan_from_stripe_id(stripe_id):
     for key in PAYMENTS_PLANS.keys():
         if PAYMENTS_PLANS[key].get("stripe_plan_id") == stripe_id:
             return key
+
+
+def get_api_key():
+    if settings.DEBUG:
+        api_key = settings.STRIPE_PUBLIC_KEY
+    else:
+        api_key = settings.STRIPE_SECRET_KEY
+
+    return api_key

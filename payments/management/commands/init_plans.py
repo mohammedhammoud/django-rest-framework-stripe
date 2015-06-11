@@ -5,13 +5,14 @@ from django.core.management.base import BaseCommand
 
 import stripe
 
+from ... import settings as app_settings
+
 
 class Command(BaseCommand):
-
     help = "Make sure your Stripe account has the plans"
 
     def handle(self, *args, **options):
-        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.api_key = app_settings.get_api_key()
         for plan in settings.PAYMENTS_PLANS:
             if settings.PAYMENTS_PLANS[plan].get("stripe_plan_id"):
                 price = settings.PAYMENTS_PLANS[plan]["price"]
