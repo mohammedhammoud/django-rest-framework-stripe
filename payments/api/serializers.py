@@ -36,9 +36,6 @@ class EventSerializer(ModelSerializer):
 
 
 class CurrentSubscriptionSerializer(ModelSerializer):
-    has_active_subscription = serializers.ReadOnlyField()
-    can_charge = serializers.ReadOnlyField()
-
     class Meta:
         model = CurrentSubscription
 
@@ -62,6 +59,9 @@ class InvoiceSerializer(ModelSerializer):
 
 
 class CurrentCustomerSerializer(ModelSerializer):
+    has_active_subscription = serializers.ReadOnlyField()
+    can_charge = serializers.ReadOnlyField()
+
     class Meta:
         model = Customer
 
