@@ -11,8 +11,6 @@ from django.utils import timezone
 from django.utils.encoding import smart_str
 from django.template.loader import render_to_string
 
-from django.contrib.sites.models import Site
-
 import stripe
 
 from jsonfield.fields import JSONField
@@ -882,11 +880,9 @@ class Charge(StripeObject):
 
     def send_receipt(self):
         if not self.receipt_sent:
-            site = Site.objects.get_current()
             protocol = getattr(settings, "DEFAULT_HTTP_PROTOCOL", "http")
             ctx = {
                 "charge": self,
-                "site": site,
                 "protocol": protocol,
             }
             subject = render_to_string("payments/email/subject.txt", ctx)
