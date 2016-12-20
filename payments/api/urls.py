@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
-import views
+from payments.api import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^current-user/$', views.CurrentCustomerDetailView.as_view(), name='stripe-current-customer-detail'),
     url(r'^subscription/$', views.SubscriptionView.as_view(), name='stripe-subscription'),
     url(r'^change-card/$', views.ChangeCardView.as_view(), name='stripe-change-card'),
@@ -12,4 +12,4 @@ urlpatterns = patterns('',
     url(r'^events/$', views.EventListView.as_view(), name='stripe-events'),
     url(r'^webhook/$', views.WebhookView.as_view(), name='stripe-webhook'),
     url(r'^cancel/$', views.CancelView.as_view(), name='stripe-cancel'),
-)
+]
