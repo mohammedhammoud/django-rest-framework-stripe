@@ -1,8 +1,10 @@
 import datetime
 import decimal
+from importlib import import_module
+
 
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import importlib, timezone
+from django.utils import timezone
 
 
 def convert_tstamp(response, field_name=None):
@@ -36,7 +38,7 @@ def load_path_attr(path):  # pragma: no cover
     i = path.rfind(".")
     module, attr = path[:i], path[i + 1:]
     try:
-        mod = importlib.import_module(module)
+        mod = import_module(module)
     except ImportError as e:
         raise ImproperlyConfigured("Error importing {0}: '{1}'".format(module, e))
     try:
