@@ -26,6 +26,7 @@ from ..models import (
 class EventProcessingExceptionSerializer(ModelSerializer):
     class Meta:
         model = EventProcessingException
+        fields = '__all__'
 
 
 class EventSerializer(ModelSerializer):
@@ -33,21 +34,25 @@ class EventSerializer(ModelSerializer):
 
     class Meta:
         model = Event
+        fields = '__all__'
 
 
 class CurrentSubscriptionSerializer(ModelSerializer):
     class Meta:
         model = CurrentSubscription
+        fields = '__all__'
 
 
 class ChargeSerializer(ModelSerializer):
     class Meta:
         model = Charge
+        fields = '__all__'
 
 
 class InvoiceItemSerializer(ModelSerializer):
     class Meta:
         model = InvoiceItem
+        fields = '__all__'
 
 
 class InvoiceSerializer(ModelSerializer):
@@ -56,6 +61,7 @@ class InvoiceSerializer(ModelSerializer):
 
     class Meta:
         model = Invoice
+        fields = '__all__'
 
 
 class CurrentCustomerSerializer(ModelSerializer):
@@ -64,6 +70,7 @@ class CurrentCustomerSerializer(ModelSerializer):
 
     class Meta:
         model = Customer
+        fields = '__all__'
 
 
 """
