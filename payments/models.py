@@ -368,7 +368,7 @@ class Customer(StripeObject):
         cancelled.send(sender=self, stripe_response=sub)
 
     @classmethod
-    def create(cls, user, card=None, plan=None, charge_immediately=True):
+    def create(cls, user, card=None, plan=None, charge_immediately=True, metadata={}):
 
         if card and plan:
             plan = PAYMENTS_PLANS[plan]["stripe_plan_id"]
@@ -388,7 +388,8 @@ class Customer(StripeObject):
             email=user.email,
             card=card,
             plan=plan or DEFAULT_PLAN,
-            trial_end=trial_end
+            trial_end=trial_end,
+            metadata=metadata
         )
 
         if stripe_customer.active_card:
