@@ -14,30 +14,13 @@ from .models import (
 from .utils import get_user_model
 
 
-def user_search_fields():
+def user_search_fields():  # coverage: omit
     User = get_user_model()
-    USERNAME_FIELD = getattr(User, "USERNAME_FIELD", None)
-    fields = []
-    if USERNAME_FIELD is not None:
-        # Using a Django 1.5+ User model
-        fields = [
-            "user__{0}".format(USERNAME_FIELD)
-        ]
-
-        try:
-            # get_field_by_name throws FieldDoesNotExist if the field is not
-            # present on the model
-            # pylint: disable=W0212,E1103
-            User._meta.get_field_by_name("email")
-            fields += ["user__email"]
-        except FieldDoesNotExist:
-            pass
-    else:
-        # Using a pre-Django 1.5 User model
-        fields = [
-            "user__username",
-            "user__email"
-        ]
+    fields = [
+        "user__{0}".format(User.USERNAME_FIELD)
+    ]
+    if "email" in [f.name for f in User._meta.fields]:
+        fields += ["user__email"]
     return fields
 
 

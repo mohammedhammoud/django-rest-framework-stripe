@@ -44,6 +44,7 @@ setup(
         "pytz",
         "six",
         "djangorestframework>=3.1.1",
+        "jsonfield>=1.0.3",
     ],
     test_suite="runtests.runtests",
     tests_require=[

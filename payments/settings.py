@@ -49,9 +49,5 @@ def plan_from_stripe_id(stripe_id):
 
 
 def get_api_key():
-    if settings.DEBUG:
-        api_key = settings.STRIPE_PUBLIC_KEY
-    else:
-        api_key = settings.STRIPE_SECRET_KEY
-
+    api_key = settings.STRIPE_SECRET_KEY
     return api_key
